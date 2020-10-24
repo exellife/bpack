@@ -47,8 +47,8 @@ pub fn pack(src: &[u8]) -> Option<Vec<u8>> {
         // topology itself -> max 119 byte ?
         // packed data -> "x" byte
         // total -> 2 + 119 + "x" byte
-        println!("src -> {:?}", src);
-        println!("result -> {:?}", result);
+        // println!("src -> {:?}", src.len());
+        // println!("result -> {:?}", result.len());
         return Some(result);
     }
 
@@ -59,11 +59,12 @@ pub fn pack(src: &[u8]) -> Option<Vec<u8>> {
 mod test {
     use super::*;
     use rand::prelude::*;
+    use std::time::{Duration, Instant};
 
     use serde::{Deserialize, Serialize};
     use serde_json;
 
-    use std::time::{Duration, Instant};
+
 
     use std::fs::File;
     use std::io::BufReader;
@@ -107,41 +108,41 @@ mod test {
         let mut rng = rand::thread_rng();
         let now = Instant::now();
         let stop = now + Duration::from_secs(60 * 30);
-        loop {
-            if Instant::now() >= stop {
-                break;
-            }
+        // loop {
+        //     if Instant::now() >= stop {
+        //         break;
+        //     }
 
-            // let n: u16 = rng.gen();
-            // let mut v_bts: Vec<u8> = vec![0; n as usize];
-            // for i in 0..v_bts.len() {
-            //     let q = rng.gen_range(32, 127);
-            //     v_bts[i] = q;
-            // }
+        //     // let n: u16 = rng.gen();
+        //     // let mut v_bts: Vec<u8> = vec![0; n as usize];
+        //     // for i in 0..v_bts.len() {
+        //     //     let q = rng.gen_range(32, 127);
+        //     //     v_bts[i] = q;
+        //     // }
 
-            let n: u16 = rng.gen_range(2500, u16::MAX);
-            let mut v_bts: Vec<u8> = vec![0; n as usize];
-            for i in 0..v_bts.len() {
-                let q = rng.gen_range(32, 127);
-                v_bts[i] = q;
-            }
-            // let before = Instant::now();
-            if let Some(data) = pack(&v_bts) {
-                // println!("original data -> {:?}", n);
-                // println!("packed data -> {}", data.len());
-            }
-            // let after = Instant::now();
-            // println!("it took {:?} to pack {} size input", after - before, n);
-        }
-
-        // let n: u16 = 5500;
-        // let mut v_bts: Vec<u8> = vec![0; n as usize];
-        // for i in 0..v_bts.len() {
-        //     let q = rng.gen_range(32, 127);
-        //     v_bts[i] = q;
+        //     let n: u16 = rng.gen_range(2500, u16::MAX);
+        //     let mut v_bts: Vec<u8> = vec![0; n as usize];
+        //     for i in 0..v_bts.len() {
+        //         let q = rng.gen_range(32, 127);
+        //         v_bts[i] = q;
+        //     }
+        //     // let before = Instant::now();
+        //     if let Some(data) = pack(&v_bts) {
+        //         // println!("original data -> {:?}", n);
+        //         // println!("packed data -> {}", data.len());
+        //     }
+        //     // let after = Instant::now();
+        //     // println!("it took {:?} to pack {} size input", after - before, n);
         // }
 
-        // pack(&v_bts);
+        let n: u16 = 5500;
+        let mut v_bts: Vec<u8> = vec![0; n as usize];
+        for i in 0..v_bts.len() {
+            let q = rng.gen_range(32, 127);
+            v_bts[i] = q;
+        }
+
+        pack(&v_bts);
 
         // let mut buf = vec![0; u16::MAX as usize];
         // // let mut buf = String::with_capacity(u16::MAX as usize);

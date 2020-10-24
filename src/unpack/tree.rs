@@ -1,22 +1,43 @@
 use crate::unpack::Node;
 use crate::{get_bit, get_bit_16, set_bit};
 
-// #[derive(Debug, Copy, Clone)] // TODO
 pub struct Tree {
     root: Option<Box<Node>>,
-    current: Option<Box<Node>>,
+    current: Option<Box<Node>>, // TODO reconsider this
 }
 
 impl Tree {
-    pub fn handle(&mut self, byte: u8) {
+    pub fn handle(&mut self, byte: u8, v: &mut Vec<u8>, v_idx: &mut usize, o_size: usize) {
         // 0 -> left, 1 -> right
-        if let Some(node) = &self.current {
 
-        } else {
-            if let Some(r) = &self.root {
-                // self.current = self.root;
+        if self.current.is_none() {
+            // println!("setting current");
+            assert!(self.root.is_some());
+            self.current = self.root.clone();
+        }
+
+        for i in (0..8).rev() {
+            if *v_idx >= o_size {
+                break;
+            }
+            let bit = get_bit(byte, i);
+
+            // TODO
+            // cache set bit (bit)
+
+            if let Some(node) = self.current.as_ref().unwrap().next(bit) {
+                if let Some(code) = node.value {
+                    // cache add code (code)
+                    // to the bit we were setting earlier
+                    v[*v_idx] = code + 32;
+                    *v_idx += 1;
+                    self.current = self.root.clone();
+                } else {
+                    self.current = Some(node);
+                }
             }
         }
+        // println!("about to exit");
     }
 
     pub fn from_topo_2(src: Vec<u8>) -> Self {

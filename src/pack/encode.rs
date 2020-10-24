@@ -101,7 +101,13 @@ pub fn encode_16(table: Vec<(u16, i8)>, src: &[u8]) -> Vec<u8> {
     // unsafe {
     //     v.set_len(v_idx);
     // }
+    let first = ((byte & 0xff00) >> 8) as u8;
+    let second = (byte & 0x00ff) as u8;
 
+    v[v_idx] = first;
+    v[v_idx + 1] = second;
+
+    v_idx += 2;
     v.truncate(v_idx);
     v
 }
