@@ -1,103 +1,14 @@
 use crate::unpack::Node;
 use crate::unpack::Table;
-use crate::{get_bit, get_bit_16, set_bit};
+use crate::{get_bit, set_bit};
 
 pub struct Tree {
     root: Option<Box<Node>>,
-    current: Option<Box<Node>>, // TODO reconsider this
 }
 
 impl Tree {
-    pub fn handle(&mut self, byte: u8, v: &mut Vec<u8>, v_idx: &mut usize, o_size: usize) {
-        // 0 -> left, 1 -> right
-
-        if self.current.is_none() {
-            // println!("setting current");
-            assert!(self.root.is_some());
-            self.current = self.root.clone();
-        }
-
-        for i in (0..8).rev() {
-            if *v_idx >= o_size {
-                break;
-            }
-            let bit = get_bit(byte, i);
-
-            // TODO
-            // cache set bit (bit)
-
-            if let Some(node) = self.current.as_ref().unwrap().next(bit) {
-                if let Some(code) = node.value {
-                    // cache add code (code)
-                    // to the bit we were setting earlier
-                    v[*v_idx] = code + 32;
-                    *v_idx += 1;
-                    self.current = self.root.clone();
-                } else {
-                    self.current = Some(node);
-                }
-            }
-        }
-        // println!("about to exit");
-    }
-
-    pub fn from_topo_2(src: Vec<u8>) -> Self {
-        let mut tree = Tree {
-            root: None,
-            current: None,
-        };
-
-        let mut stack: Vec<Node> = vec![];
-
-        let mut b_idx = 8;
-        let mut skip = false;
-        for idx in 0..src.len() - 1 {
-            if skip {
-                skip = false;
-                b_idx = 8;
-                continue;
-            }
-
-            let (byte_1, byte_2) = (src[idx], src[idx + 1]);
-            println!("byte_1 -> {}, byte_2 -> {}", byte_1, byte_2);
-            for i in (0..b_idx).rev() {
-                if get_bit(byte_1, i) == 1 {
-                    if i == 0 {
-                        assert!(byte_2 <= 95);
-                        // means that entire next byte
-                        // is a code we are looking for
-                        // so push byte_2 into the stack
-                        // and skip next iteration
-                        stack.push(Node::new_leaf(byte_2));
-                        skip = true;
-                    } else {
-                        // get the remaining bits from byte_1
-                    }
-
-                    break;
-                } else {
-                    if stack.len() > 1 {
-                        let first = stack.pop().expect("no first node in stack");
-
-                        let second = stack.pop().expect("no second node in stack");
-                        let parent = Node::new_non_leaf(second, first);
-                        stack.push(parent);
-                    } else if stack.len() == 1 {
-                        let root = stack.pop().expect("no root found");
-                        tree.root = Some(Box::new(root));
-                    }
-                }
-            }
-        }
-
-        tree
-    }
-
     pub fn from_topo(src: Vec<u8>) -> Self {
-        let mut tree = Tree {
-            root: None,
-            current: None,
-        };
+        let mut tree = Tree { root: None };
 
         let mut stack: Vec<Node> = vec![];
 
@@ -225,29 +136,5 @@ impl Tree {
             let b: u16 = 0b0000_0000_0000_0000;
             root.dfs(&mut counter, b, table);
         }
-    }
-}
-
-#[cfg(test)]
-mod test {
-    use super::*;
-
-    #[test]
-    #[ignore]
-    fn tree_from_topo_test() {
-        let topo: Vec<u8> = vec![
-            174, 84, 144, 121, 121, 91, 166, 37, 52, 97, 31, 141, 171, 181, 146, 25, 49, 80, 101,
-            193, 36, 148, 42, 48, 180, 168, 140, 195, 212, 57, 104, 163, 198, 146, 120, 233, 6,
-            172, 41, 211, 240, 66, 166, 104, 10, 47, 22, 85, 228, 194, 65, 64, 72, 81, 57, 26, 57,
-            24, 9, 149, 81, 83, 155, 16, 74, 90, 69, 59, 17, 24, 130, 7, 73, 33, 179, 116, 250, 28,
-            10, 45, 17, 9, 164, 19, 201, 202, 189, 43, 21, 8, 66, 5, 44, 42, 209, 69, 62, 180, 21,
-            90, 106, 11, 21, 35, 211, 164, 226, 104, 41, 84, 36, 74, 74, 79, 102, 168, 4, 192, 0,
-        ];
-
-        // let tree = Tree::from_topo(topo);
-        let tree2 = Tree::from_topo_2(topo);
-        // tree.dfs();
-
-        assert_eq!(1, 2);
     }
 }

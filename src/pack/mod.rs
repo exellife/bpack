@@ -56,16 +56,16 @@ pub fn pack(src: &[u8]) -> Option<Vec<u8>> {
 mod test {
     use super::*;
     use rand::prelude::*;
-    use std::time::{Duration, Instant};
+    // use std::time::{Duration, Instant};
 
     use serde::{Deserialize, Serialize};
-    use serde_json;
 
 
 
-    use std::fs::File;
-    use std::io::BufReader;
-    use std::io::Read;
+
+    // use std::fs::File;
+    // use std::io::BufReader;
+    // use std::io::Read;
 
     #[derive(Deserialize, Serialize, Debug)]
     struct Friend {
@@ -103,8 +103,8 @@ mod test {
     #[ignore]
     fn pack_test_1() {
         let mut rng = rand::thread_rng();
-        let now = Instant::now();
-        let stop = now + Duration::from_secs(60 * 30);
+        // let now = Instant::now();
+        // let stop = now + Duration::from_secs(60 * 30);
         // loop {
         //     if Instant::now() >= stop {
         //         break;

@@ -1,6 +1,4 @@
-// use crate::encoding::count_freq;
-use crate::pack::{count_freq, Node, Topology};
-// use crate::{get_bit, set_bit};
+use crate::pack::{Node, Topology};
 use std::collections::BinaryHeap;
 
 pub struct Tree {
@@ -49,40 +47,40 @@ impl Tree {
     }
 }
 
-#[cfg(test)]
-mod test {
-    use super::*;
-    use rand::prelude::*;
-    use std::time::{Duration, Instant};
+// #[cfg(test)]
+// mod test {
+//     use super::*;
+//     use rand::prelude::*;
+//     use std::time::{Duration, Instant};
 
-    #[test]
-    #[ignore]
-    fn build_tree_test_1() {
-        let mut rng = rand::thread_rng();
-        let now = Instant::now();
-        let stop = now + Duration::from_secs(60 * 60);
-        loop {
-            if Instant::now() >= stop {
-                break;
-            }
+//     #[test]
+//     #[ignore]
+//     fn build_tree_test_1() {
+//         let mut rng = rand::thread_rng();
+//         let now = Instant::now();
+//         let stop = now + Duration::from_secs(60 * 60);
+//         loop {
+//             if Instant::now() >= stop {
+//                 break;
+//             }
 
-            // let after = Instant::now();
-            let n: u32 = rng.gen_range(1, 1000 * 1000);
-            let mut v_bts: Vec<u8> = vec![0; n as usize];
-            for i in 0..n as usize {
-                let q = rng.gen_range(32, 127);
-                // assert!(q - 32 <= 95);
-                v_bts[i] = q;
-            }
-            // let before = Instant::now();
-            let mut heap = count_freq(&v_bts);
-            let mut tree = Tree::from_heap(&mut heap);
-            if let Some((topology, table)) = tree.dfs() {
-                // println!("table -> {:?}", table);
-            }
-            // println!("it took {:?} for input {}", after - before, n);
-        }
+//             // let after = Instant::now();
+//             let n: u32 = rng.gen_range(1, 1000 * 1000);
+//             let mut v_bts: Vec<u8> = vec![0; n as usize];
+//             for i in 0..n as usize {
+//                 let q = rng.gen_range(32, 127);
+//                 // assert!(q - 32 <= 95);
+//                 v_bts[i] = q;
+//             }
+//             // let before = Instant::now();
+//             let mut heap = count_freq(&v_bts);
+//             let mut tree = Tree::from_heap(&mut heap);
+//             if let Some((topology, table)) = tree.dfs() {
+//                 // println!("table -> {:?}", table);
+//             }
+//             // println!("it took {:?} for input {}", after - before, n);
+//         }
 
-        assert_eq!(1, 2);
-    }
-}
+//         assert_eq!(1, 2);
+//     }
+// }

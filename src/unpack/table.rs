@@ -61,11 +61,6 @@ impl Table {
         self.map.insert(bits, (code + 32, counter as u8));
     }
 
-    pub fn print_k(&self) {
-        for (k, _) in self.map.iter() {
-            println!("key -> {:b}", k);
-        }
-    }
 
     pub fn handle(&mut self, byte: u8, v: &mut Vec<u8>, v_idx: &mut usize, o_size: usize) {
         if *v_idx < o_size {
@@ -225,30 +220,4 @@ impl Table {
         }
     }
 
-    pub fn handle_(&mut self, byte: u8) {
-        // TODO
-
-        // 0b1010_1010 0b1011_1100 0b1010_1111
-        // case when we need to take all bits from a byte
-        // so if smallest was 6
-        // we did not find anything for 6, 7 and now 8
-        // we found for 8
-        // take all bits from it
-        // bits_left = 8 - 8 = 0
-        // if bits_left = 0
-        // means that reset everything
-        // rest = 0u16
-        // bits_occupies = 0
-        // need_to_read = smallest
-    }
-}
-
-#[cfg(test)]
-mod test {
-    use super::*;
-
-    #[test]
-    fn table_test() {
-        assert_eq!(1, 2);
-    }
 }

@@ -18,32 +18,32 @@ pub fn count_freq(src: &[u8]) -> BinaryHeap<Node> {
         .collect()
 }
 
-#[cfg(test)]
-mod test {
-    use super::*;
-    use rand::prelude::*;
-    use std::time::{Duration, Instant};
+// #[cfg(test)]
+// mod test {
+//     use super::*;
+//     use rand::prelude::*;
+//     use std::time::{Duration, Instant};
 
-    #[test]
-    #[ignore]
-    fn count_freq_test_() {
-        let mut rng = rand::thread_rng();
-        let mut bts: [u8; 1024 * 1024] = [0; 1024 * 1024];
+//     #[test]
+//     #[ignore]
+//     fn count_freq_test_() {
+//         let mut rng = rand::thread_rng();
+//         let mut bts: [u8; 1024 * 1024] = [0; 1024 * 1024];
 
-        // rng.fill_bytes(&mut bts);
-        for i in 0..bts.len() {
-            bts[i] = rng.gen_range(32, 127);
-        }
+//         // rng.fill_bytes(&mut bts);
+//         for i in 0..bts.len() {
+//             bts[i] = rng.gen_range(32, 127);
+//         }
 
-        let start = Instant::now();
-        count_freq(&bts);
-        let stop = Instant::now();
+//         let start = Instant::now();
+//         count_freq(&bts);
+//         let stop = Instant::now();
 
-        println!("it took {:?} to count 1mb", stop - start);
+//         println!("it took {:?} to count 1mb", stop - start);
 
-        assert_eq!(1, 2);
-    }
-}
+//         assert_eq!(1, 2);
+//     }
+// }
 
 // let mut t: Vec<Node> = vec![
 //     Node::new_leaf(0),

@@ -53,25 +53,5 @@ impl Node {
         // println!("my value -> {:?}", self.value);
     }
 
-    pub fn next(&self, bit: u8) -> Option<Box<Node>> {
-        // 1. check if self has value
-        // if it is, then we are at the leaf node
-        // println!("bit -> {}", bit);
-        // if let Some(code) = self.value {
-        //     v[*v_idx] = code + 32;
-        //     *v_idx += 1;
-        //     println!("bit in -> {}", bit);
-        //     println!("code -> {}, counter -> {}", code, *c);
-        //     return None;
-        // }
 
-        // 2. check if bit is 0 or 1
-        assert!(bit == 0 || bit == 1);
-        if bit == 0 {
-            return self.left_child.clone();
-        } else {
-            return self.right_child.clone();
-        }
-        // Some(self.clone())
-    }
 }

@@ -1,5 +1,3 @@
-use crate::{get_bit, set_bit};
-
 #[derive(Debug)]
 pub struct Topology {
     vector: Vec<u8>, // TODO set vector to fixed size(119)
@@ -22,10 +20,10 @@ impl Topology {
     }
 
     pub fn write(&mut self, value: Option<u8>) {
-        let v = self.vector.clone();
+
         let mut current = &mut self.vector[self.v_idx];
         // leaf found, set bit to 1, followed by code
-        if let Some(mut code) = value {
+        if let Some(code) = value {
             // code += 32;
             // set bit to 1 at bit_idx
             *current |= 1 << self.bit_idx;
@@ -86,68 +84,68 @@ impl Topology {
         }
     }
 
-    pub fn read(&self) -> Vec<u8> {
-        let mut codes = vec![];
+    // pub fn read(&self) -> Vec<u8> {
+    //     let mut codes = vec![];
 
-        let mut entire = false;
+    //     let mut entire = false;
 
-        let mut code = 0b0000_0000;
+    //     let mut code = 0b0000_0000;
 
-        let mut to_take = 0;
-        let mut end = 8;
-        for byte in self.vector.iter() {
-            if entire {
-                codes.push(*byte);
-                entire = false;
-                end = 8;
-                to_take = 0;
-                continue;
-            }
+    //     let mut to_take = 0;
+    //     let mut end = 8;
+    //     for byte in self.vector.iter() {
+    //         if entire {
+    //             codes.push(*byte);
+    //             entire = false;
+    //             end = 8;
+    //             to_take = 0;
+    //             continue;
+    //         }
 
-            if to_take != 0 {
-                let mut bit_idx = 7;
+    //         if to_take != 0 {
+    //             let mut bit_idx = 7;
 
-                for i in (0..to_take).rev() {
-                    let bit = get_bit(*byte, bit_idx);
-                    code = set_bit(code, i, bit);
-                    bit_idx -= 1;
-                }
-                codes.push(code);
-                to_take = 0;
-                code = 0b0000_0000;
-                end = bit_idx + 1;
-            }
+    //             for i in (0..to_take).rev() {
+    //                 let bit = get_bit(*byte, bit_idx);
+    //                 code = set_bit(code, i, bit);
+    //                 bit_idx -= 1;
+    //             }
+    //             codes.push(code);
+    //             to_take = 0;
+    //             code = 0b0000_0000;
+    //             end = bit_idx + 1;
+    //         }
 
-            for i in (0..end).rev() {
-                let bit = get_bit(*byte, i);
+    //         for i in (0..end).rev() {
+    //             let bit = get_bit(*byte, i);
 
-                // found 1 at i position
-                // 0000_0000
-                // 7654 3210
-                if bit == 1 {
-                    if i == 0 {
-                        // if this is a last bit in byte
-                        // next entire byte is a code
-                        entire = true;
-                        break;
-                    } else {
-                        // next i bits are part of the code
-                        let mut bit_idx = 7;
-                        for j in (0..i).rev() {
-                            let bit = get_bit(*byte, j);
-                            code = set_bit(code, bit_idx, bit);
-                            bit_idx -= 1;
-                        }
-                        to_take = 8 - i;
-                        break;
-                    }
-                }
-            }
-            end = 8;
-        }
+    //             // found 1 at i position
+    //             // 0000_0000
+    //             // 7654 3210
+    //             if bit == 1 {
+    //                 if i == 0 {
+    //                     // if this is a last bit in byte
+    //                     // next entire byte is a code
+    //                     entire = true;
+    //                     break;
+    //                 } else {
+    //                     // next i bits are part of the code
+    //                     let mut bit_idx = 7;
+    //                     for j in (0..i).rev() {
+    //                         let bit = get_bit(*byte, j);
+    //                         code = set_bit(code, bit_idx, bit);
+    //                         bit_idx -= 1;
+    //                     }
+    //                     to_take = 8 - i;
+    //                     break;
+    //                 }
+    //             }
+    //         }
+    //         end = 8;
+    //     }
 
-        codes
-    }
+    //     codes
+    // }
 }
 
 // let l = self.vector.len() - 1;

@@ -1,9 +1,8 @@
 // extern crate bpack;
 
-use bpack;
-
 #[cfg(test)]
 mod test {
+    use bpack;
     use rand::prelude::*;
     use std::time::{Duration, Instant};
 
@@ -17,7 +16,7 @@ mod test {
                 break;
             }
 
-            let n: u16 = rng.gen_range(2500, u16::MAX);
+            let n: u16 = rng.gen_range(1500, u16::MAX);
             // let n: u16 = u16::MAX;
             let mut v_bts: Vec<u8> = vec![0; n as usize];
             for i in 0..v_bts.len() {
