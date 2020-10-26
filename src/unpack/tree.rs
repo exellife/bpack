@@ -1,4 +1,5 @@
 use crate::unpack::Node;
+use crate::unpack::Table;
 use crate::{get_bit, get_bit_16, set_bit};
 
 pub struct Tree {
@@ -109,7 +110,7 @@ impl Tree {
 
         for byte in src.iter() {
             if entire {
-                assert!(*byte <= 95);
+                // assert!(*byte <= 95);
                 let node = Node::new_leaf(*byte);
                 stack.push(node);
                 entire = false;
@@ -126,7 +127,7 @@ impl Tree {
                     code = set_bit(code, i, bit);
                     bit_idx -= 1;
                 }
-                assert!(code <= 95);
+                // assert!(code <= 95);
                 let node = Node::new_leaf(code);
                 stack.push(node);
                 to_take = 0;
@@ -218,9 +219,11 @@ impl Tree {
     // to_push = 0b0100_0000 | 0b0011_1010
     // to_push = 0b0111_1010
 
-    pub fn dfs(&self) {
+    pub fn dfs(&self, table: &mut Table) {
         if let Some(root) = &self.root {
-            root.dfs();
+            let mut counter: i8 = 0;
+            let b: u16 = 0b0000_0000_0000_0000;
+            root.dfs(&mut counter, b, table);
         }
     }
 }
@@ -244,197 +247,7 @@ mod test {
         // let tree = Tree::from_topo(topo);
         let tree2 = Tree::from_topo_2(topo);
         // tree.dfs();
-        tree2.dfs();
+
         assert_eq!(1, 2);
     }
 }
-
-// my value -> Some(92)
-// my value -> Some(82)
-// my value -> None
-// my value -> Some(7)
-// my value -> Some(47)
-// my value -> None
-// my value -> None
-// my value -> Some(91)
-// my value -> Some(76)
-// my value -> None
-// my value -> Some(41)
-// my value -> Some(70)
-// my value -> None
-// my value -> None
-// my value -> None
-// my value -> Some(31)
-// my value -> Some(27)
-// my value -> None
-// my value -> Some(93)
-// my value -> Some(89)
-// my value -> None
-// my value -> None
-// my value -> Some(12)
-// my value -> Some(49)
-// my value -> None
-// my value -> Some(65)
-// my value -> Some(46)
-// my value -> None
-// my value -> None
-// my value -> None
-// my value -> None
-// my value -> Some(36)
-// my value -> Some(40)
-// my value -> None
-// my value -> Some(81)
-// my value -> Some(11)
-// my value -> None
-// my value -> Some(42)
-// my value -> None
-// my value -> None
-// my value -> Some(25)
-// my value -> Some(15)
-// my value -> None
-// my value -> Some(67)
-// my value -> Some(45)
-// my value -> None
-// my value -> None
-// my value -> None
-// my value -> Some(71)
-// my value -> Some(26)
-// my value -> None
-// my value -> Some(39)
-// my value -> Some(29)
-// my value -> None
-// my value -> None
-// my value -> Some(6)
-// my value -> Some(88)
-// my value -> None
-// my value -> Some(78)
-// my value -> Some(63)
-// my value -> None
-// my value -> None
-// my value -> None
-// my value -> None
-// my value -> None
-// my value -> Some(10)
-// my value -> Some(51)
-// my value -> None
-// my value -> Some(1)
-// my value -> None
-// my value -> Some(23)
-// my value -> Some(22)
-// my value -> None
-// my value -> Some(87)
-// my value -> Some(38)
-// my value -> None
-// my value -> None
-// my value -> None
-// my value -> Some(32)
-// my value -> Some(64)
-// my value -> None
-// my value -> Some(33)
-// my value -> None
-// my value -> Some(19)
-// my value -> Some(35)
-// my value -> None
-// my value -> Some(28)
-// my value -> Some(24)
-// my value -> None
-// my value -> None
-// my value -> None
-// my value -> None
-// my value -> Some(50)
-// my value -> Some(84)
-// my value -> None
-// my value -> Some(83)
-// my value -> Some(54)
-// my value -> None
-// my value -> None
-// my value -> Some(4)
-// my value -> Some(75)
-// my value -> None
-// my value -> Some(34)
-// my value -> Some(59)
-// my value -> None
-// my value -> None
-// my value -> None
-// my value -> Some(17)
-// my value -> Some(16)
-// my value -> None
-// my value -> Some(3)
-// my value -> Some(73)
-// my value -> None
-// my value -> None
-// my value -> Some(13)
-// my value -> Some(55)
-// my value -> None
-// my value -> Some(62)
-// my value -> Some(14)
-// my value -> None
-// my value -> None
-// my value -> None
-// my value -> None
-// my value -> None
-// my value -> Some(69)
-// my value -> Some(68)
-// my value -> None
-// my value -> Some(9)
-// my value -> Some(72)
-// my value -> None
-// my value -> None
-// my value -> Some(60)
-// my value -> Some(57)
-// my value -> None
-// my value -> Some(94)
-// my value -> Some(43)
-// my value -> None
-// my value -> None
-// my value -> None
-// my value -> Some(80)
-// my value -> Some(8)
-// my value -> None
-// my value -> Some(2)
-// my value -> Some(44)
-// my value -> None
-// my value -> None
-// my value -> Some(86)
-// my value -> Some(20)
-// my value -> None
-// my value -> Some(79)
-// my value -> Some(90)
-// my value -> None
-// my value -> None
-// my value -> None
-// my value -> None
-// my value -> Some(85)
-// my value -> Some(77)
-// my value -> None
-// my value -> Some(5)
-// my value -> Some(21)
-// my value -> None
-// my value -> None
-// my value -> Some(30)
-// my value -> Some(58)
-// my value -> None
-// my value -> Some(56)
-// my value -> Some(52)
-// my value -> None
-// my value -> None
-// my value -> None
-// my value -> Some(74)
-// my value -> Some(66)
-// my value -> None
-// my value -> Some(18)
-// my value -> Some(37)
-// my value -> None
-// my value -> None
-// my value -> Some(61)
-// my value -> Some(53)
-// my value -> None
-// my value -> Some(0)
-// my value -> Some(48)
-// my value -> None
-// my value -> None
-// my value -> None
-// my value -> None
-// my value -> None
-// my value -> None
-// my value -> None

@@ -1,3 +1,6 @@
+use crate::set_bit_16;
+use crate::unpack::Table;
+
 #[derive(Clone, Debug)]
 pub struct Node {
     pub value: Option<u8>,
@@ -22,21 +25,32 @@ impl Node {
         }
     }
 
-    pub fn dfs(&self) {
-        // go left first
+    pub fn dfs(&self, counter: &mut i8, bits: u16, table: &mut Table) {
         if let Some(node) = &self.left_child {
-            node.dfs();
+            *counter += 1;
+
+            let idx = (!(*counter - 16) + 1) as u16;
+            let code = set_bit_16(bits, idx, 0);
+
+            node.dfs(counter, code, table);
         }
 
         // go right
         if let Some(node) = &self.right_child {
-            node.dfs();
+            *counter += 1;
+
+            let idx = (!(*counter - 16) + 1) as u16;
+            let code = set_bit_16(bits, idx, 1);
+
+            node.dfs(counter, code, table);
         }
 
         // do the logic
-        if let Some(val) = self.value {}
-
-        println!("my value -> {:?}", self.value);
+        if let Some(val) = self.value {
+            table.set(val, bits, *counter);
+        }
+        *counter -= 1;
+        // println!("my value -> {:?}", self.value);
     }
 
     pub fn next(&self, bit: u8) -> Option<Box<Node>> {

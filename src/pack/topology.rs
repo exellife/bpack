@@ -67,11 +67,11 @@ impl Topology {
                 let last_bits = (code & (0xff >> to_shift)) << to_shift;
 
                 *current |= last_bits;
-                assert!(code <= 95);
-                assert_eq!(
-                    first_bits << (7 - self.bit_idx) | last_bits >> to_shift,
-                    code
-                );
+                // assert!(code <= 95);
+                // assert_eq!(
+                //     first_bits << (7 - self.bit_idx) | last_bits >> to_shift,
+                //     code
+                // );
             }
         } else {
             // set bit to 0 at bit_idx

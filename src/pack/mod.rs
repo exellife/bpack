@@ -33,15 +33,12 @@ pub fn pack(src: &[u8]) -> Option<Vec<u8>> {
         result[1] = second;
         for i in 0..topo_vec.len() {
             result[i + 2] = topo_vec[i];
-            if i == topo_vec.len() - 1 {
-                println!("last index if topo -> {}", i + 2);
-            }
         }
 
         for i in 0..enc_src.len() {
             result[i + 121] = enc_src[i];
         }
-        assert_eq!(0, result[120]);
+        // assert_eq!(0, result[120]);
         //
         // original size -> 2 byte
         // topology itself -> max 119 byte ?
@@ -103,7 +100,7 @@ mod test {
     }
 
     #[test]
-    // #[ignore]
+    #[ignore]
     fn pack_test_1() {
         let mut rng = rand::thread_rng();
         let now = Instant::now();

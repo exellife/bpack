@@ -7,7 +7,7 @@ pub fn encode(table: Vec<(u8, i8)>, src: &[u8]) -> Vec<u8> {
     let mut empty_bits = 8;
 
     for b in src.iter() {
-        assert!(table[(*b - 32) as usize].1 != -1);
+        // assert!(table[(*b - 32) as usize].1 != -1);
         let (code, bits_takes) = table[(*b - 32) as usize];
 
         if empty_bits == 0 {
@@ -64,7 +64,7 @@ pub fn encode_16(table: Vec<(u16, i8)>, src: &[u8]) -> Vec<u8> {
     let mut byte: u16 = 0b0000_0000_0000_0000;
 
     for b in src.iter() {
-        assert!(table[(*b - 32) as usize].1 != -1);
+        // assert!(table[(*b - 32) as usize].1 != -1);
         let (code, bits_takes) = table[(*b - 32) as usize];
 
         let to_insert = code >> 15 - b_idx;
