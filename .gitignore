@@ -1,3 +1,5 @@
 /target
 Cargo.lock
 trash.rs
+heap.rs
+huffman.rs
