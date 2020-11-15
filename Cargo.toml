@@ -1,8 +1,10 @@
 [package]
 name = "bpack"
 version = "0.1.0"
-authors = ["kairat <kairat.forwork@gmail.com>"]
+authors = ["Kairat Abylkasymov <kairat.forwork@gmail.com>"]
 edition = "2018"
+license = "MIT OR Apache-2.0"
+description = "Fast, simple and easy to use data compression library meant to work with byte slices of String and str types."
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

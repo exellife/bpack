@@ -10,6 +10,24 @@ pub(self) use node::Node;
 pub(self) use topology::Topology;
 pub(self) use tree::Tree;
 
+/// Compresses byte slice
+///
+/// # Examples
+///
+/// ```
+/// use bpack::pack;
+///
+/// let data = "some very long string".as_bytes();
+///
+/// let opt = pack(data);
+///
+/// ```
+///
+/// # Panics
+///
+/// 1. if byte in byte slice is not in the range 32..127
+/// 2. if data size is not in the range ~2000 to 65535 bytes
+
 pub fn pack(src: &[u8]) -> Option<Vec<u8>> {
     // inside pack function
     // 1. count_freq function call -> returns heap
@@ -44,8 +62,6 @@ pub fn pack(src: &[u8]) -> Option<Vec<u8>> {
         // topology itself -> max 119 byte ?
         // packed data -> "x" byte
         // total -> 2 + 119 + "x" byte
-        // println!("src -> {:?}", src.len());
-        // println!("result -> {:?}", result.len());
         return Some(result);
     }
 
@@ -59,9 +75,6 @@ mod test {
     // use std::time::{Duration, Instant};
 
     use serde::{Deserialize, Serialize};
-
-
-
 
     // use std::fs::File;
     // use std::io::BufReader;

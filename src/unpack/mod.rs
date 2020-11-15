@@ -7,6 +7,22 @@ pub(self) use node::Node;
 pub(self) use table::Table;
 pub(self) use tree::Tree;
 
+
+/// Decompresses byte vector
+///
+/// # Examples
+///
+/// ```
+/// use bpack::{pack, unpack};
+///
+/// let data = "some very long string".as_bytes();
+/// if let Some(packed) = pack(data) {
+///     let unpacked = unpack(packed);
+///     assert_eq!(data, unpacked.as_slice());
+/// }
+///
+/// ```
+
 pub fn unpack(packed: Vec<u8>) -> Vec<u8> {
     let (first, second) = (packed[0], packed[1]);
     let original_size = (((first as u16) << 8) | second as u16) as usize;
