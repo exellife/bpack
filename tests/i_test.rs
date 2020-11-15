@@ -1,5 +1,6 @@
 #[cfg(test)]
 mod test {
+    // use bpack::{pack, unpack};
     use bpack::{pack, unpack};
     use rand::prelude::*;
     use std::time::{Duration, Instant};
