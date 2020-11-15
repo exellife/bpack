@@ -16,11 +16,16 @@ pub(self) use tree::Tree;
 /// use bpack::{pack, unpack};
 ///
 /// let data = "some very long string".as_bytes();
+/// 
 /// if let Some(packed) = pack(data) {
 ///     let unpacked = unpack(packed);
+/// 
 ///     assert_eq!(data, unpacked.as_slice());
 /// }
 ///
+/// # Panics
+/// if passed data is not a byte vector returned from `pack` 
+/// function 
 /// ```
 
 pub fn unpack(packed: Vec<u8>) -> Vec<u8> {
